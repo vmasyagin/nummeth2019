@@ -1,9 +1,10 @@
 #include "MethodHeat.h"
 #include <cstdio>
 #include <cstring>
+#include <cmath>
 
 
-void MethodHeat::convertToParam(int i, Param& p)
+void MethodHeatFVM::convertToParam(int i, Point pt, Param& p)
 {
     p.r = 0.0;
     p.p = 0.0;
@@ -15,7 +16,7 @@ void MethodHeat::convertToParam(int i, Param& p)
 }
 
 
-void MethodHeat::init()
+void MethodHeatFVM::init()
 {
     mesh = new Mesh();
     mesh->initFromFiles((char*)"heat.1");
@@ -28,12 +29,12 @@ void MethodHeat::init()
 }
 
 
-void MethodHeat::run()
+void MethodHeatFVM::run()
 {
 
 }
 
-MethodHeat::~MethodHeat()
+MethodHeatFVM::~MethodHeatFVM()
 {
     delete[] T;
 }

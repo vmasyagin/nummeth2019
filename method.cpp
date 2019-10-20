@@ -1,13 +1,23 @@
 #include "method.h"
-#include "MethodHeat.h"
+#include "MethodHeatFVM.h"
+#include "MethodHeatGalerkin.h"
+#include "MethodGasFVM.h"
+#include "MethodGasGalerkin.h"
 #include <cstdio>
+#include <cstdlib>
+#include "math.h"
+#pragma warning(disable:4996)
 
 Method* Method::create(int methodCode) {
     switch (methodCode) {
-        case METHOD_CODE_HEAT:
-            return new MethodHeat();
-        case METHOD_CODE_GAS:
-            return new MethodGas();
+        case METHOD_CODE_HEAT_FVM:
+            return new MethodHeatFVM();
+        case METHOD_CODE_GAS_FVM:
+            return new MethodGasFVM();
+        case METHOD_CODE_HEAT_GALERKIN:
+            return new MethodHeatGalerkin();
+        case METHOD_CODE_GAS_GALERKIN:
+            return new MethodGasGalerkin();
     }
 }
 
@@ -16,6 +26,10 @@ void Method::saveVTK(int step) {
 
     sprintf(fName, "res_%010d.vtk", step);
     FILE * fp = fopen(fName, "w");
+    if (!fp) {
+        fprintf(stderr, "Can not open file '%s'\n", fName);
+        exit(1);
+    }
     fprintf(fp, "# vtk DataFile Version 2.0\n");
     fprintf(fp, "GASDIN data file\n");
     fprintf(fp, "ASCII\n");
@@ -42,7 +56,7 @@ void Method::saveVTK(int step) {
     for (int i = 0; i < mesh->cCount; i++)
     {
         Param p;
-        convertToParam(i, p);
+        convertToParam(i, mesh->cells[i].c, p);
         fprintf(fp, "%25.16f ", p.r);
         if (i+1 % 8 == 0 || i+1 == mesh->cCount) fprintf(fp, "\n");
     }
@@ -51,7 +65,7 @@ void Method::saveVTK(int step) {
     for (int i = 0; i < mesh->cCount; i++)
     {
         Param p;
-        convertToParam(i, p);
+        convertToParam(i, mesh->cells[i].c, p);
         fprintf(fp, "%25.16f ", p.p);
         if (i+1 % 8 == 0 || i+1 == mesh->cCount) fprintf(fp, "\n");
     }
@@ -60,7 +74,7 @@ void Method::saveVTK(int step) {
     for (int i = 0; i < mesh->cCount; i++)
     {
         Param p;
-        convertToParam(i, p);
+        convertToParam(i, mesh->cells[i].c, p);
         fprintf(fp, "%25.16f ", p.T);
         if (i+1 % 8 == 0 || i+1 == mesh->cCount) fprintf(fp, "\n");
     }
@@ -69,7 +83,7 @@ void Method::saveVTK(int step) {
     for (int i = 0; i < mesh->cCount; i++)
     {
         Param p;
-        convertToParam(i, p);
+        convertToParam(i, mesh->cells[i].c, p);
         fprintf(fp, "%25.16f %25.16f %25.16f ", p.u, p.v, 0.0);
         if (i+1 % 8 == 0 || i+1 == mesh->cCount) fprintf(fp, "\n");
     }

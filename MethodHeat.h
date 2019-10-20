@@ -3,14 +3,14 @@
 #include "method.h"
 
 
-class MethodHeat : public Method
+class MethodHeatFVM : public Method
 {
 public:
-    virtual void convertToParam(int, Param&);
+    virtual void convertToParam(int, Point, Param&);
     virtual void init();
     virtual void run();
 
-    ~MethodHeat();
+    ~MethodHeatFVM();
 protected:
 
     double *T;
