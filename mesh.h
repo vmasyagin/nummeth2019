@@ -26,7 +26,6 @@ struct Point
 
 typedef Point Vector;
 
-
 class Cell
 {
 public:

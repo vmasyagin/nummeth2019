@@ -94,7 +94,10 @@ void Mesh::initFromFiles(char* fName)
                 }
                 eCount++;
             }
-            if (p == -2) eCount++;
+            if (p == -2) {
+                cells[i].neigh[j] = -1;
+                eCount++;
+            }
         }
     }
     edges = new Edge[eCount];
