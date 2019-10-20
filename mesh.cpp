@@ -94,7 +94,10 @@ void Mesh::initFromFiles(char* fName)
                 }
                 eCount++;
             }
-            if (p == -2) eCount++;
+            if (p == -2) {
+                cells[i].neigh[j] = -1;
+                eCount++;
+            }
         }
     }
     edges = new Edge[eCount];
@@ -209,3 +212,11 @@ int Mesh::findEdge(int n1, int n2)
     }
     return -1;
 }
+
+
+Mesh::~Mesh() { delete[] edges, cells, nodes; }
+
+Cell::~Cell() { delete[] nodesInd, edgesInd; }
+
+
+Edge::~Edge() { delete[] c; }
