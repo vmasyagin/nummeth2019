@@ -1,8 +1,8 @@
 #include "method.h"
 #include "MethodHeatFVM.h"
-#include "MethodHeatGalerkin.h"
-#include "MethodGasFVM.h"
-#include "MethodGasGalerkin.h"
+//#include "MethodHeatGalerkin.h"
+//#include "MethodGasFVM.h"
+//#include "MethodGasGalerkin.h"
 #include <cstdio>
 #include <cstdlib>
 #include "math.h"
@@ -12,12 +12,12 @@ Method* Method::create(int methodCode) {
     switch (methodCode) {
         case METHOD_CODE_HEAT_FVM:
             return new MethodHeatFVM();
-        case METHOD_CODE_GAS_FVM:
-            return new MethodGasFVM();
-        case METHOD_CODE_HEAT_GALERKIN:
-            return new MethodHeatGalerkin();
-        case METHOD_CODE_GAS_GALERKIN:
-            return new MethodGasGalerkin();
+        //case METHOD_CODE_GAS_FVM:
+            //return new MethodGasFVM();
+        //case METHOD_CODE_HEAT_GALERKIN:
+            //return new MethodHeatGalerkin();
+        //case METHOD_CODE_GAS_GALERKIN:
+            //return new MethodGasGalerkin();
     }
 }
 
